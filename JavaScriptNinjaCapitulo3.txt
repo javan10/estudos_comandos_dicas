@@ -1,0 +1,26 @@
+FUNCOES SÃO OBJETOS DE PRIMEIRA CLASSE
+ - podem ser criados por meio de literais;
+ - podem ser atribuídos a variáveis, entradas de arrays e propriedades de outros objetos;
+ - podem ser transmitidos como argumentos para funções;
+ - podem ser retornados como valores a partir de funçõespodem contar com propriedades que podem ser criadas e atribuídas dinamicamente;
+ 
+ Funções são OBJETOS
+ 
+ LOOP DE EVENTOS DO NAVEGADOR
+	loope de eventos do navegador é de thread única. Todo evento é colocado na fila de eventos e manipulado na ordem que é colocado na fila.
+	Eventos:
+	 de navegador (quando o load da página termina ou quando está para ser descarregada)
+	 de rede (solicitação ajax)
+	 de usuário cliques e movimentos do mouse e pressionamento de teclas
+	 eventos de temporizadores (tempo limite expira ou intervalo é disparado)
+
+	Os eventos ocorrem em momentos e ordem imprevisíveis então a invocação de suas funções manipuladoras são assíncrónas
+	CALLBACK
+	(o usuário movimenta o maouse pela página -> navegador detecta os movimentos e insere vários eventos "mousemove" na fila de eventos.
+	Ao final o loope vai se deparar com eles e disparar as manipuladores para esses tipo de evento. Esses manipuladores são chamados funções de callback
+	Ex: function useless(callback) {return callback();}
+	var text = "legal";
+	assert(useless(function(){return text;})===text, "A função useless esta funcionando"+text);
+	
+
+ 

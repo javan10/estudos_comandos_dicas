@@ -1,0 +1,60 @@
+var carros = [];
+var carros = [10];
+var carros = new Array();
+var carros = new Array(10);
+var carros = ["Ka","Palio","J3"]
+var carros = new Array("Ka","Palio","J3");
+carros.valueOf() retorna o proprio array.
+carros.toString() retorna uma string com os valores //'Ka,Palio,J3'
+carros.lenght;
+
+carros.push("gol"); add no final do array
+carros.pop(); retorna o utimo elemento e ele do retira do array
+carros.unshift("sonic"); adiciona no primeiro elemento e retorna length
+carros.shift(); retorna o primeiro elemento e retira ele do array
+
+carros.indexOf("ka"); retorna posiçao 0
+carros.splice(1,1) 1param = indice, 2param = quantos elementos a partir do indice. retorna um novo array com os elementos removidos;
+carros.splice(1,1,"opala") retira o elemento o elemento 1, quantidade = 1, e coloca os proximos elementos no array (no caso substitui palio por opala);
+carros.splice(1,0,"corolla") coloca o corala na posicao 1 nao remove ninguem
+
+var carros = [{modelo="ka", marca="ford",preco=33000},{modelo="sonic", marca="chevrolet",preco=45663},{modelo="palio", marca="fiat",preco=43435}]
+
+carros.forEach(function(element){
+  console.log(element);
+}); // imprimi todos os elementos
+
+carros.filter(function(elemento){
+   return(elemento.marca==="ford";
+}); //return [{modelo="ka",marca="ford"}] um array
+
+carros.every(function(elemento){
+   return(elemento.marca==="ford";
+}); // verifica se todos sao da marca ford , neste caso returna false
+
+carros.some(function(elemento){
+   return(elemento.marca==="ford";
+}); // verifica se algum é da marca ford , neste caso returna true
+
+carros.map(function(elemento){
+	return(elemento.marca);
+}); //retorna novo array so com marca ["ford","chevrolet","fiat"]
+
+carros.reduce(function(elementoPrevio,elementoAtual){
+	return (elementoPrevio+elementoAtual.preco);
+},0); //inicia com zero
+
+var carros=["Palio","ka","corsa"];
+var motos=["honda", "yamaha"];
+var veiculos = carros.concat(motos); // ["Palio","ka","corsa","honda", "yamaha"]
+ 
+veiculos.slice(0,2); //returna ["palio","ka"] 
+
+veiculos.reverse(); retorna a ordem invertida do array e reflete no array
+
+veiculos.sort(function(a,b)){
+	return a.preco-b.preco;
+}); // se a < que primeiro parametro ele a vem primeiro, se a > b vem em segundo se for igual permanece nas posiçoes
+
+veiculos.join(";") //retorna string "Palio;ka;corsa;honda;yamaha"
+.split(";"); retorna array ["Palio","ka","corsa","honda", "yamaha"]

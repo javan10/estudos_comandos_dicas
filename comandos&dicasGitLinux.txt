@@ -1,0 +1,34 @@
+GIT 
+COMANDOS
+
+git version (versão do git)
+git init (cria um novo repositorio)
+git add (adiciona ao index)
+git status (status do git)
+git commit (comita)
+git log (--oneline --decorate -- all --graph)
+git branch (cria novo branch - branch <nome do branch> - branch -d <nome do branch> (apaga))
+git checkout (muda o branch - checkout <nome do branch>
+git merge (se você estiver no master - git merge <nome da branch>)
+git stach (save:criar; apply:tras de volta; list:lista;drop:apagar;pop:desenpilhar (apply + drop)) Separa os arquivos que eu indicar pra deixar pra ver o que eu quero fazer com eles depois.
+git remote add repositorioRemoto https://github.com/javan10/aprendendoGit
+git remote -v (consultar ou remover repositorios remotos)
+git push repositorioRemoto https://github...... (enpurra atualizações)
+git pull repositorioRemoto https://github...... (tras atualizações fech + merge funciona com caminho feliz)
+git clone
+git fetch (tras só as modificações)
+git diff (diferenças entre servidorRemoto/master e master)
+git merge (unifica as diferenças )
+
+LINUX
+cat (mostra conteudo do arquivo)
+cat ./git/HEADE (mostra qual branch atual)
+ls -la (lista os arquivos do branch atual)
+echo e > e.txt (cria um arquivo e.txt com um conteudo "e")
+
+VIM
+:q sai
+:w write escreve ou salva
+:q! sai sem salvar
+:wq salva e sai
+
