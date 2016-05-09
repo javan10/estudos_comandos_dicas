@@ -1,0 +1,343 @@
+USANDO DIRETIVAS
+
+NG-REPEAT
+ng-repeat= "contato in contatos"
+<td ng-repeat = "(key,value)in contato)">
+{{key + ' ' + value}} //key é o nome da propriedade
+
+NG-APP
+NG-CONTROLLER
+ng-app="listaTelefonica" //angular.module("listaTelefonica",[])
+ng-controller = "listaTelefonicaCtrl" // angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){$scope.titulo="Lista Telefonica"});
+
+NG-BIND
+<div>
+	<h4 ng-bind="titulo"></h4> ou <h4>{{titulo}}</h4>
+</div>
+
+{{4+4}} {{6*6}}
+
+NG-MODEL
+ng-model //amarra um valor de uma view para um $scope no controller, vai geralmente em inputs, select, textarea
+<input ng-model="nome"/>
+<input ng-model="telefone"/>
+
+NG-DISABLED
+ng-click();
+angular.copy ou delete $scope.contato // após adicionar
+ng-disabled = "!contato.nome|| !contato.telefone" //no botão de adicionar só que existe uma maneira melhor
+
+NG-OPTIONS
+<select ng-model="contato.operadora" ng-options="operadora.nome operadora.codigo as groupby operadora.categoria for operadora in operadoras">
+<option value=""> Escola a operadora</option>
+
+NG-CLASS
+style{ 
+	.selecionado =yellow
+}
+$scope.class=selecionado ng-class="classe" 
+<input type="checkbox" ng-model="contato.selecionado">
+<tr ng-class="{selecionado: contato.selecionado, negrito:contato.selecionado}" .OU. "{[selecionado negrito]:contato.selecionado}" >//se selecionado e negrigo estiver em um array
+
+NG-STYLE
+ng-style="{backgroun-color: contato.cor}"
+
+apagar (usando filtro)
+$scope.apagarContatos = function(contatos){
+	$scope.contatos=contatos.filter(function(contato){
+		if (!contato.selecionado) return contato;
+	});
+}
+$scope.isContatoSelecionado = function(contatos){
+	contatos.some(function(contato){
+		return contato.selecionado;
+	});
+}
+ng-disabled="isContatos.selecionado"
+
+NG-SHOW
+<table ng-show="contatos.lenght">
+
+NG-HIDE
+<ng-hide="!isContatoSelecionado">
+
+NG-IF //O componente nem é renderizado
+<ng-IF="isContatoSelecionado">
+
+NG-INCLUDE
+<div ng-include="'footer.html'"></div>
+
+PERFORMANCE
+ng-hide e ng-show é mais performatico não interagem com a dom
+ng-if menos performatico interage com a dom lazy-load
+dick-trak-by - one way data-binding otimizações ng-if ng-swith
+
+<meta content-type="UTF-8"> PROBLEMAS DE ACENTUAÇÃO
+
+
+VALIDANDO FORMULARIOS
+no input ng-required="true"
+<form name="contatoForm">
+
+</form>
+é valido: {{contatoForm.$valid}} ou .$invalid
+<input name="nome"> //{{contatoForm.nome.$valid}}
+$dirty // mexido// {{contatoForm.nome$invalid&&contatoForm.nome.$dirty}} // na mensagem de error
+$pristine//virgem   // no metodo adicionarContato - $scope.contatoForm.$setPristine();
+
+ng-minlength $error
+ng-maxlength    // na mensagem de error - <fiv ng-show="contatoForm.nome$error.required" $error.minlength - $error.pattern
+regex /^\d{4-5}-\d{d}$/     // regex é entre barra // ^inicia $termina \d digito {4-5}quantidade
+
+NG-MESSAGES
+<div ng-messages="contatoForm.nome.$error" class="alert alert-danger">
+	<div ng-message="required"> preencha o campo nome, por favor</div>
+</div>	
+
+ANGULAR-MESSAGES.JS
+
+FILTROS
+{{contato.nome|uppercase}}  |lowercase  |date:'dd/MM/yyyy HH;mm'
+
+<input type="text" ng-model="criterioDeBusca">
+
+<ng-repeat="contato in contatos|filter:criterioDeBusca"> 
+//filter:{nome:criterioDeBusca}  
+//|ordeyBy:'nome' // +nome ou -nome 
+//|orderBy:'nome':'desc'
+//|orderBy:'criterioDeOrdenacao':'direcaoDaOrdenacao'
+//|limiteTo:2
+<th><a href="" ng-click"ordenarPor('nome')">
+$scope.ordenarPor(campo){
+	$scope.criterioDeOrdenacao=campo;
+	$scope.direcaoDaOrdenacao=!scope.direcaoDaOrdenacao;
+}
+<ng-options="... in contatos|orderBy:'nome'">
+
+{{operadora.preço|currency}}
+
+angular-locale_pt-br.js
+{{100,96| number:1}}  //fracao 100,96
+{{"abcdefghij"|limitTo:4}}  //abcd
+
+filtros são mais performático no controller
+
+function($scope,$filter) ou $scope.uppercaseFilter
+$scope.contatos=[{name:filter('uppercase')("pedro"), ....}]
+ou {nome:upperCaseFilter("Pedro")}
+
+AJAX
+
+function($scope, $http)
+var carregarContatos = function(){
+	$http.get("http://...").sucess(function(data,status){
+		$scope.contatos=data;
+	});
+}
+
+carregarContatos();
+
+adicionarContato = functio(){
+	contato.date = new Date()
+	$http.post("url", contato)
+	.success(... carregarContatos() ou $scope.contatos.push(data)
+	.erro(function(data,status){
+		$scope.mensage..."aconteceu um problema":data
+	}
+}
+
+Política da mesma origem
+app.all('*',function(req,res,next){
+	res.header('Access-Control-Allow-Origem','*');
+	res.header('Access-Control-Allow--Methods','PUT,GET,POST,DELETE,OPTIONS');
+	res.header('Access-Control-Allow-Headers','content-type');
+	next();
+});
+
+
+Organizando Projetos
+
+INLINE STYLE - tudo dentro do html
+STEROTYPED STYLE
+app/
+	css/
+		app.css
+	js/
+		app.js
+		controller.js
+		directiv.js
+		filter.js
+	lib/
+		angular.js
+		jquery.js
+	view/
+		login.html
+		lista.html
+	index.html
+	
+SPECIFIC STYLE
+	app/
+	css/
+		app.css
+	js/
+		controller/	
+			loginCtrl.js
+			listaCtrl.js
+		direcives/
+			painelDirective.js
+			tableDirective.js
+		services/
+			loginService.js
+			listaService.js
+		app.js
+	lib/
+		angular.js
+		jquery.js
+	view/
+		login.html
+		lista.html
+	index.html
+	
+DOMAIN STYLE - para cada dominio tenho uma pasta com o conteudo do Specific style
+
+SERVIÇOS
+
+FACTORY - retorna um objeto função fábrica
+	angular.module("meuModulo").factory("minhaFactory",function(p1,p2){
+		var meuObjeto = {
+			propriedade1=p1,
+			propriedade2 = p2
+		}
+		
+		return meuObjeto;
+	)};
+	
+SERVICE - retorna uma função contrutora // deve-se utilizar o operador new
+	angular.module("meuModulo").service("meuService",function(p1,p2){
+		this.p1=p1;
+		this.p2=p2;
+	});
+	
+	
+VALUE E CONSTANT
+	angular.module("meuModulo").value("config",{ // .constante - pode ser injetado no provider
+		baseUrl= "minha URL"
+	});
+	
+PROVIDER // posso configurar um serviço. é como se fosse um factory so que dentro do this.$get
+	angular.module("meuModulo").provider("meuProvider",function(){
+		this.$get=function(){
+			return{
+				generate:function(){
+					var serial= "";
+					while(var...) {
+						return serial;
+					}
+				}
+			}
+			var _lenght=10;
+			this.getLength = function(){
+				return _length
+			}
+			this.setLength(lenght){
+				_length = length;
+			}
+		}
+	});
+	
+CRIAR FILTROS
+		angular.module("meuModulo").filter("meuFiltro", function(){
+			return function(input, tamanho) {// parametros {{nome|meufiltro:10}}
+				var listaDeNomes=input.split("");
+				var listaDeNomesFormatado=listaDeNomes.map(function(nome){
+					if(/da|de|do/.test(nome)) return nome;
+					return nome.charAt(0).toUpperCase() + nome.substring(1).toLowerCase();
+				});
+			return listaDenomesFormatada.join(""); //return output	
+		};
+	
+DIRETIVAS
+	angular.module("meuModulo").diretive("nomeDaDiretiva", function(){ //return um directive object definition
+		//1 - <div nome-da-diretiva > </div>,   2- <nome-da-diretiva> </nome-da-diretiva>
+		return{
+			template:"<div>ui alert</div>", // é impresso dentro da diretiva .OU.
+			templateURL:"viewAlert.html",
+			replace: true, //pega o template e substitui na diretiva
+			retrict:"AEC", //A-atribute (1), E-elemento (2), C- classe (IE), M - comentário
+			scope:{
+				topic:"@title"  //ou  {{topic}} <ui-alert title="minhaMenssagem"></ui-alert>
+				title:"@" 		// se for title na diretiva e title no html posso emitir o valor e colocar simplesmente "@"
+				mensagem:"="    // $scope.mensagem< valor no $scope do controle <ui-alert mensagem="mensagem">
+				valor:"&"       // twe way data-binding
+			}
+			tranclude:true, //<div ng-transclude> - no template //<ui-alert>valor que eu quero transcludir</ui-alert>
+			required:"ngmodel",
+			link:function(scope, element, attrs, required, ctrl){
+				element.bind("keyUp", function(){
+					ctrl.$setViewValue(ctrl.$ViewValue);
+					ctrl.$render();
+				});
+				var _formateDate=function(date){
+					date = date.replace(/[^0-9]+/g,""); // o que não é dígito vai ser substituido
+					if(date=date.substyring(0,2) + "/",   //..... outras substituições
+				}
+				ctrl.$parsers.push(function(value){   // só executa quando chegar a uma condição
+					if (value.length===10){return value;}
+				});
+			});	
+			//CONTROLLER
+			required:"^uiAccordions"
+			link:function(scope,element,attrs,ctrl){
+				scope.opem=functio(){
+					scope.isOpened=!scope.isOpened;
+				};
+			};
+			controller:function($scope,$element,$attrs){
+			
+			});
+		};
+	});
+	
+	MODULARIZANDO A APLICAÇÃO
+	var app = angular.module("meuModulo",[outroModulo, modulo2]); //guarda o valor em uma variável global
+		//guardando o template no cache para encapsular o template das diretivas
+		$templateCash.put("nomeTemplate","código do template"];
+		angular.module("ui").rum(function($templateCache)
+		$templateCache.put("view/Accordion.html","meuTemplate");
+	}).
+	
+	SPA SINGLE PAGE APPLICATION
+	angular.route.js
+	ng-route
+	<div ng-view></div>
+	angular.module("meuModulo",["ngRoute"]){
+		$routProvider.when("contatos",{
+			templateUrl:"view/contatos.html",
+			controller:"listaTelefonicaCtrl"
+			resoulve:{ 	//posso tirar do meu listaTelefonicaCtrol a dependencia de contatos e operadoras
+				contatos: function(contatosApi){
+					{return contatosAPI.getContatos();}
+				});
+				operadoras: function(contatosApi){
+					{return operadoraAPI.getOperadoras();}
+				});
+				
+				
+			}
+		}.otherWise({redirectTo:"/novoContato"});
+	}
+	
+	// no meu listaTelefonicaCtrl depois de addContato
+	$location.path("contatos"); // usado para redirecionar para outra view
+	
+	<a href:{{#contato/contato.id}}
+	($routParams.id)
+	
+	
+	
+	
+	
+	
+	
+	
+	
